@@ -1,0 +1,7 @@
+- name: Check if proxy cert exists
+  notify: Fetch certs
+  stat:
+    path: "{{ certs_path }}/ansible-custom-cert.crt"
+  register: cert_exists
+  when: register_proxy_cert
+  changed_when: not cert_exists.stat.exists

@@ -1,0 +1,13 @@
+- name: Fetch certs
+  notify: Update certs
+  shell: |
+    openssl s_client -showcerts -verify 5 -connect {{ fetch_cert_host }}:443 < /dev/null \
+      | awk '/BEGIN/,/END/{ if(/BEGIN/){a++}; if(a==1){ out="ansible-custom-cert.crt"; }else{ out="ansible-custom-cert"a".crt";} print >out}'
+  args:
+    chdir: "{{ certs_path }}"
+  when: register_proxy_cert and not cert_exists.stat.exists
+  become: yes
+
+- name: Update certs
+  shell: update-ca-certificates
+  become: yes

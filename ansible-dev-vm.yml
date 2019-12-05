@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - name: Include vars file
+      include_vars: vars.yml
+
+    - name: configure proxy cert
+      import_role:
+        name: proxy-cert
+      when: register_proxy_cert

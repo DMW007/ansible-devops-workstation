@@ -1,0 +1,2 @@
+- include: proxy-cert-handlers.yml
+  tags: proxy-cert
