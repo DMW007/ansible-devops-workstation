@@ -1,0 +1,13 @@
+for certDB in $(find ~/ -name "cert9.db")
+do
+    certDir=$(dirname ${certDB});
+    for certFile in $(find "{{ certs_path }}" -name "ansible-custom-cert*.crt")
+    do
+      certutil -L -d sql:${certDir} | grep ${certFile}
+      if [ $? -ne 0 ]
+      then
+        echo "Register ${certFile} to ${certDB}"
+        certutil -A -n "Ansible-Inserted CA ${certFile}" -t "TCu,Cu,Tu" -i ${certFile} -d sql:${certDir}
+      fi
+    done
+done

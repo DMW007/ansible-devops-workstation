@@ -5,3 +5,22 @@
   register: cert_exists
   when: register_proxy_cert
   changed_when: not cert_exists.stat.exists
+
+# Firefox cert store to trust the proxy certificate since the browser has its own cert store
+- name: Check if firefox is installed
+  shell: which firefox
+  register: ff_check_result
+  changed_when: False
+
+- name: Install dependencies for firefox certutil
+  become: yes
+  when: ff_check_result.rc == 0
+  apt: 
+    name: "libnss3-tools"
+    state: present
+
+- name: Register certs in firefox cert store if not present
+  shell: "{{ lookup('template', 'register-firefox-certs.j2') }}"
+  register: ff_register_result
+  changed_when: ff_register_result.stdout.find("Register") != -1
+  when: ff_check_result.rc == 0
