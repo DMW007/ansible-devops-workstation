@@ -5,7 +5,7 @@
       | awk '/BEGIN/,/END/{ if(/BEGIN/){a++}; if(a==1){ out="ansible-custom-cert.crt"; }else{ out="ansible-custom-cert"a".crt";} print >out}'
   args:
     chdir: "{{ certs_path }}"
-  when: register_proxy_cert and not cert_exists.stat.exists
+  when: not cert_exists.stat.exists
   become: yes
 
 - name: Update certs

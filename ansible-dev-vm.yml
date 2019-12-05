@@ -3,7 +3,7 @@
     - name: Include vars file
       include_vars: vars.yml
 
-    - name: configure proxy cert
+    - name: Register proxy cert
       import_role:
         name: proxy-cert
       when: register_proxy_cert

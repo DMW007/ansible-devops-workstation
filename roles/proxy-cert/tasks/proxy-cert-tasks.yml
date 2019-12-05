@@ -3,7 +3,6 @@
   stat:
     path: "{{ certs_path }}/ansible-custom-cert.crt"
   register: cert_exists
-  when: register_proxy_cert
   changed_when: not cert_exists.stat.exists
 
 # Firefox cert store to trust the proxy certificate since the browser has its own cert store
