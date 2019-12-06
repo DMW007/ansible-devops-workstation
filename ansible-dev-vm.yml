@@ -7,3 +7,25 @@
       import_role:
         name: proxy-cert
       when: register_proxy_cert
+
+    - name: Install common software
+      notify: Reconfigure virtualbox packages
+      become: yes
+      apt:
+        name: ["virtualbox", "virtualbox-dkms", "linux-headers-generic"]
+        state: present
+        update_cache: yes
+
+    - name: Download and extract terraform
+      unarchive: 
+        src: https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip
+        remote_src: yes
+        dest: /usr/local/bin
+
+  handlers:
+    - name: Reconfigure virtualbox packages
+      # https://askubuntu.com/a/465455
+      shell: |
+        dpkg-reconfigure -fnoninteractive virtualbox-dkms virtualbox
+        modprobe vboxdrv
+      become: yes
