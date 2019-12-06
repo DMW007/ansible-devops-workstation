@@ -3,10 +3,10 @@
     - name: Include vars file
       include_vars: vars.yml
 
-    - name: Register proxy cert
+    - name: Register proxy helpers
       import_role:
-        name: proxy-cert
-      when: register_proxy_cert
+        name: proxy
+      when: proxy_enabled
 
     - name: Install common software
       notify: Reconfigure virtualbox packages

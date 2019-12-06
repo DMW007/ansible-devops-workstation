@@ -5,6 +5,32 @@
   register: cert_exists
   changed_when: not cert_exists.stat.exists
 
+- name: Install squid as local reverse proxy
+  become: yes
+  apt:
+    name: squid
+    state: present
+
+# Handled as task to update existing squid configurations on file changes
+- name: Copy squid config
+  notify: Restart squid
+  become: yes
+  template:
+    src: squid-config.j2
+    dest: /etc/squid/squid.conf
+
+- name: Set squid proxy by environment vars
+  become: yes
+  blockinfile:
+    path: /etc/environment
+    block: |
+      export http_proxy=http://127.0.0.1:{{ local_squid_port }}
+      export no_proxy={{ no_proxy }}
+      export https_proxy=$http_proxy
+      export HTTP_PROXY=$http_proxy
+      export HTTPS_PROXY=$http_proxy
+      export NO_PROXY=$no_proxy
+
 # Firefox cert store to trust the proxy certificate since the browser has its own cert store
 - name: Check if firefox is installed
   shell: which firefox

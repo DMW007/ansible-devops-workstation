@@ -1,0 +1,2 @@
+- include: proxy-handlers.yml
+  tags: proxy
