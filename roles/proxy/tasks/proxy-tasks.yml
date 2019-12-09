@@ -24,12 +24,12 @@
   blockinfile:
     path: /etc/environment
     block: |
-      export http_proxy=http://127.0.0.1:{{ local_squid_port }}
+      export http_proxy={{ local_proxy_url }}
       export no_proxy={{ no_proxy }}
-      export https_proxy=$http_proxy
-      export HTTP_PROXY=$http_proxy
-      export HTTPS_PROXY=$http_proxy
-      export NO_PROXY=$no_proxy
+      export https_proxy={{ local_proxy_url }}
+      export HTTP_PROXY={{ local_proxy_url }}
+      export HTTPS_PROXY={{ local_proxy_url }}
+      export NO_PROXY={{ no_proxy }}
 
 # Firefox cert store to trust the proxy certificate since the browser has its own cert store
 - name: Check if firefox is installed

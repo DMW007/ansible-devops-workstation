@@ -3,6 +3,10 @@
     - name: Include vars file
       include_vars: vars.yml
 
+    - set_fact:
+        # No spaces to avoid breaking the url
+        local_proxy_url: "{% if proxy_enabled %}http://{{ local_squid_host }}:{{ local_squid_port }}{% else %}{% endif %}"
+  tasks:
     - name: Register proxy helpers
       import_role:
         name: proxy
