@@ -68,7 +68,6 @@
 - name: Disable security driver in qemu config
   notify: Restart libvirtd
   become: yes
-  blockinfile:
+  lineinfile:
     path: /etc/libvirt/qemu.conf
-    block: |
-      security_driver = "none"
+    line: security_driver = "none"
