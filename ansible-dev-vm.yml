@@ -1,5 +1,10 @@
 - hosts: all
-  tasks:
+  vars:
+    - terraform_version: 0.12.17
+    - terraform_plugin_dir: ~/.terraform.d/plugins
+    # https://github.com/terra-farm/terraform-provider-virtualbox/releases
+    - terraform_virtualbox_provider_version: 0.2.0
+  pre_tasks:
     - name: Include vars file
       include_vars: vars.yml
 
@@ -12,6 +17,11 @@
         name: proxy
       when: proxy_enabled
 
+    - name: Install terraform
+      import_role:
+        name: terraform
+      when: terraform_enabled
+
     - name: Install common software
       notify: Reconfigure virtualbox packages
       become: yes
@@ -19,13 +29,6 @@
         name: ["virtualbox", "virtualbox-dkms", "linux-headers-generic"]
         state: present
         update_cache: yes
-
-    - name: Download and extract terraform
-      unarchive: 
-        src: https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip
-        remote_src: yes
-        dest: /usr/local/bin
-
   handlers:
     - name: Reconfigure virtualbox packages
       # https://askubuntu.com/a/465455

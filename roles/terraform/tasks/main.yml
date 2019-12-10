@@ -1,0 +1,3 @@
+# https://stackoverflow.com/a/30186026/9428314
+- include: terraform-tasks.yml
+  tags: terraform

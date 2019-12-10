@@ -1,0 +1,19 @@
+# ToDo: Check version and update if terraform_version doesnt match the installed version
+- name: Download and extract terraform
+  become: yes
+  unarchive: 
+    src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+    remote_src: yes
+    dest: /usr/local/bin
+  environment: 
+    https_proxy: "{{ local_proxy_url }}"
+    
+- name: Make sure terraform plugin dir exists
+  file: 
+    path: "{{ terraform_plugin_dir }}" 
+    state: directory
+
+- name: Download virtualbox provider for terraform
+  get_url:
+      url: "https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v{{ terraform_virtualbox_provider_version }}/terraform-provider-virtualbox-v{{ terraform_virtualbox_provider_version }}-linux_amd64"
+      dest: "{{ terraform_plugin_dir }}"
