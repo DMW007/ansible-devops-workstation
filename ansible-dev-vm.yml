@@ -1,10 +1,4 @@
 - hosts: all
-  vars:
-    - terraform_version: 0.12.17
-    - terraform_plugin_dir: ~/.terraform.d/plugins
-    - terraform_kvm_enabled: true
-    - kvm_default_storage_path: /tmp/kvm
-
   pre_tasks:
     - name: Include vars file
       include_vars: vars.yml
