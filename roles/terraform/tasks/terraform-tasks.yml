@@ -28,7 +28,8 @@
 - name: Install kvm
   become: yes
   apt:
-    name: ["cpu-checker", "qemu-kvm", "virt-top", "libguestfs-tools", "virtinst", "bridge-utils"]
+    # virt-manager: GUI tool for kvm vms (usefull for dev) https://www.how2shout.com/how-to/how-to-install-virt-manager-on-ubuntu.html
+    name: ["cpu-checker", "qemu-kvm", "virt-top", "libguestfs-tools", "virtinst", "bridge-utils", "virt-manager"]
     state: present
   when: terraform_kvm_enabled
 
