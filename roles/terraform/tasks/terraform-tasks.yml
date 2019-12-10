@@ -1,19 +1,65 @@
 # ToDo: Check version and update if terraform_version doesnt match the installed version
-- name: Download and extract terraform
+- name: "Download and extract terraform version {{ terraform_version }}"
   become: yes
   unarchive: 
     src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
     remote_src: yes
     dest: /usr/local/bin
+    # Avoid downloading and extracting the archive on every run for change detection
+    creates: /usr/local/bin/terraform
   environment: 
     https_proxy: "{{ local_proxy_url }}"
-    
+
+# https://askubuntu.com/a/1089849/650986
+- name: Install KVM dependencies for Ubuntu < 18.10
+  become: yes
+  apt:
+    name: "libvirt-bin"
+    state: present
+  when: terraform_kvm_enabled and ansible_distribution_version is version('18.10', '<')
+
+- name: Install KVM dependencies for Ubuntu >= 18.10
+  become: yes
+  apt:
+    name: ["libvirt-daemon-system", "libvirt-clients"]
+    state: present
+  when: terraform_kvm_enabled and ansible_distribution_version is version('18.10', '>=')
+
+- name: Install kvm
+  become: yes
+  apt:
+    name: ["cpu-checker", "qemu-kvm", "virt-top", "libguestfs-tools", "virtinst", "bridge-utils"]
+    state: present
+  when: terraform_kvm_enabled
+
+- name: Check kvm acceleration to ensure VT is enabled in the bios/uefi
+  become: yes
+  shell: kvm-ok
+  register: kvm_check
+  failed_when: "'KVM acceleration can be used' not in kvm_check.stdout"
+  changed_when: False
+  when: terraform_kvm_enabled
+
 - name: Make sure terraform plugin dir exists
   file: 
     path: "{{ terraform_plugin_dir }}" 
     state: directory
 
-- name: Download virtualbox provider for terraform
-  get_url:
-      url: "https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v{{ terraform_virtualbox_provider_version }}/terraform-provider-virtualbox-v{{ terraform_virtualbox_provider_version }}-linux_amd64"
-      dest: "{{ terraform_plugin_dir }}"
+- name: Download and extract libvirt provider for terraform
+  unarchive:
+    # ToDo: Specify version by variable
+    src: https://github.com/dmacvicar/terraform-provider-libvirt/releases/download/v0.6.0/terraform-provider-libvirt-0.6.0+git.1569597268.1c8597df.Ubuntu_18.04.amd64.tar.gz
+    remote_src: yes
+    dest: "{{ terraform_plugin_dir }}"
+    creates: "{{ terraform_plugin_dir }}/terraform-provider-libvirt"
+  when: terraform_kvm_enabled
+
+- name: Check if default kvm storage pool exists
+  shell: virsh pool-list --all | grep default
+  register: pool_check
+  ignore_errors: true
+  changed_when: pool_check.rc != 0
+
+- name: Create default kvm pool
+  shell: "virsh pool-define-as --name default --type dir --target {{ kvm_default_storage_path }}"
+  when: pool_check.rc == 1

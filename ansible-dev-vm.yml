@@ -2,8 +2,9 @@
   vars:
     - terraform_version: 0.12.17
     - terraform_plugin_dir: ~/.terraform.d/plugins
-    # https://github.com/terra-farm/terraform-provider-virtualbox/releases
-    - terraform_virtualbox_provider_version: 0.2.0
+    - terraform_kvm_enabled: true
+    - kvm_default_storage_path: /tmp/kvm
+
   pre_tasks:
     - name: Include vars file
       include_vars: vars.yml
