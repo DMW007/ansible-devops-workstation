@@ -61,5 +61,14 @@
   changed_when: pool_check.rc != 0
 
 - name: Create default kvm pool
-  shell: "virsh pool-define-as --name default --type dir --target {{ kvm_default_storage_path }}"
+  shell: "virsh pool-define-as --name default --type dir --target {{ kvm_default_storage_path }}; virsh pool-start default"
   when: pool_check.rc == 1
+
+# https://github.com/jedi4ever/veewee/issues/996#issuecomment-497976612
+- name: Disable security driver in qemu config
+  notify: Restart libvirtd
+  become: yes
+  blockinfile:
+    path: /etc/libvirt/qemu.conf
+    block: |
+      security_driver = "none"

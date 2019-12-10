@@ -1,0 +1,2 @@
+- include: terraform-handlers.yml
+  tags: terraform
