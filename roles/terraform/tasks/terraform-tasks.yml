@@ -55,16 +55,6 @@
     creates: "{{ terraform_plugin_dir }}/terraform-provider-libvirt"
   when: terraform_kvm_enabled
 
-- name: Check if default kvm storage pool exists
-  shell: virsh pool-list --all | grep default
-  register: pool_check
-  ignore_errors: true
-  changed_when: pool_check.rc != 0
-
-- name: Create default kvm pool
-  shell: "virsh pool-define-as --name default --type dir --target {{ kvm_default_storage_path }}; virsh pool-start default"
-  when: pool_check.rc == 1
-
 # https://github.com/jedi4ever/veewee/issues/996#issuecomment-497976612
 - name: Disable security driver in qemu config
   notify: Restart libvirtd
