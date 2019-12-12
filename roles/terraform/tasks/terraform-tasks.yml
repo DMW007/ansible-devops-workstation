@@ -72,3 +72,12 @@
   lineinfile:
     path: /etc/libvirt/qemu.conf
     line: security_driver = "none"
+
+# ToDo: Add variable that lists images to pre-fetch
+# ToDo: File doesn't get updated when original file changes
+- name: Download centOS cloud image to global cache
+  become: yes
+  get_url:
+    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
+    # Passing the filename to dest avoids having the file downloaded on every run, even if it already exists
+    dest: /var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud.qcow2
