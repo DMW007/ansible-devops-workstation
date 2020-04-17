@@ -27,12 +27,6 @@
         name: ["virtualbox", "virtualbox-dkms", "linux-headers-generic"]
         state: present
 
-    - name: Clone fzf
-      notify: Install fzf
-      git:
-        repo: https://github.com/junegunn/fzf.git
-        dest: ~/.fzf
-
   handlers:
     - name: Reconfigure virtualbox packages
       # https://askubuntu.com/a/465455

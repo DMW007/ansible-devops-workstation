@@ -17,6 +17,7 @@ Some usefull CLI tools:
 - Git
 - bmon (Network traffic overview)
 - jq (JSON parsing)
+- [fzf](https://github.com/junegunn/fzf) (command-line fuzzy finder)
 
 ## Preparation on the target system
 
