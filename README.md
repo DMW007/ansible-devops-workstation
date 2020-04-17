@@ -7,6 +7,7 @@ Setup any Ubuntu machine for working with common DevOps tools. Supports Ubuntu 1
 - Terraform with KVM plugin
 - KVM
 - VirtualBox
+- Visual Studio Code
 - Supports installation behind corporate proxy
 - Local squid proxy as reverse proxy for corporate proxy
 - Fetch MITM root certificate from corporate proxy

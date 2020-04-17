@@ -20,18 +20,6 @@
         name: terraform
       when: terraform_enabled
 
-    - name: Install common tools
-      become: yes
-      apt:
-        name: [
-            "git",
-            "vim",
-            "bmon", # Network traffic monitorring
-            "jq", # Json parsing
-          ]
-        state: present
-        update_cache: yes
-
     - name: Install Virtualbox
       notify: Reconfigure virtualbox packages
       become: yes

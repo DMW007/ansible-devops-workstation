@@ -15,3 +15,15 @@
     deb: /tmp/vscode
   become: true
   when: vscode_check.rc != 0
+
+- name: Install common tools
+  become: yes
+  apt:
+    name: [
+        "git",
+        "vim",
+        "bmon", # Network traffic monitorring
+        "jq", # Json parsing
+      ]
+    state: present
+    update_cache: yes
