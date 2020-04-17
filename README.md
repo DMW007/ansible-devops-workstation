@@ -11,6 +11,12 @@ Setup any Ubuntu machine for common DevOps tools.
 - Local squid proxy as reverse proxy for corporate proxy
 - Fetch MITM root certificate from corporate proxy
 
+Some usefull CLI tools:
+
+- Git
+- bmon (Network traffic overview)
+- jq (JSON parsing)
+
 ## Preparation on the target system
 
 - Python for Ansible

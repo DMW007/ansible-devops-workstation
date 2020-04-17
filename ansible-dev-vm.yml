@@ -20,7 +20,12 @@
     - name: Install common tools
       become: yes
       apt:
-        name: ["git", "bmon"]
+        name: [
+            "git",
+            "vim",
+            "bmon", # Network traffic monitorring
+            "jq", # Json parsing
+          ]
         state: present
         update_cache: yes
 
@@ -34,7 +39,7 @@
     - name: Clone fzf
       notify: Install fzf
       git:
-        repo: https://github.com/junegunn/fzf.git 
+        repo: https://github.com/junegunn/fzf.git
         dest: ~/.fzf
 
   handlers:
