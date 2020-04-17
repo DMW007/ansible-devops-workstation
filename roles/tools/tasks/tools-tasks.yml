@@ -1,0 +1,17 @@
+- name: Check if VS Code is installed
+  shell: code --help
+  register: vscode_check
+  failed_when: False
+  changed_when: False
+
+- name: Download VS Code
+  get_url:
+    url: https://go.microsoft.com/fwlink/?LinkID=760868
+    dest: /tmp/vscode
+  when: vscode_check.rc != 0
+
+- name: Install VS code
+  apt: 
+    deb: /tmp/vscode
+  become: true
+  when: vscode_check.rc != 0

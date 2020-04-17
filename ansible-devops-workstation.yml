@@ -12,6 +12,9 @@
         name: proxy
       when: proxy_enabled
 
+    - import_role:
+        name: tools
+
     - name: Install terraform
       import_role:
         name: terraform
