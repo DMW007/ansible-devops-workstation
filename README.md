@@ -1,6 +1,6 @@
-# Ansible Dev(Ops) VM
+# Ansible Dev(Ops) Workstation
 
-Setup any Ubuntu machine for common DevOps tools.
+Setup any Ubuntu machine for working with common DevOps tools.
 
 ## Features & software
 
@@ -25,5 +25,5 @@ Some usefull CLI tools:
 ## How to provision
 
 ```bash
-ansible-playbook -i <target-system> [-u username] ansible-dev-vm.yml -v
+ansible-playbook -i <target-system> [-u username] ansible-devops-workstation.yml -v
 ```
