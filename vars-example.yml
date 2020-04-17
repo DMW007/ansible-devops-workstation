@@ -1,0 +1,16 @@
+# ToDo: Document vars and create example vars file
+
+proxy_enabled: true
+proxy_host: proxy.internal
+proxy_port: 80
+proxy_login_str: domain\user:password
+no_proxy: internal, localhost, 127.0.0.1
+local_squid_host: 127.0.0.1
+local_squid_port: 3128
+certs_path: /usr/local/share/ca-certificates
+fetch_cert_host: some-host.internal
+
+terraform_enabled: true
+terraform_version: 0.12.17
+terraform_plugin_dir: ~/.terraform.d/plugins
+terraform_kvm_enabled: true
