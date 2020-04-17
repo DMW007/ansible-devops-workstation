@@ -1,6 +1,6 @@
 # ToDo: Document vars and create example vars file
 
-proxy_enabled: true
+proxy_enabled: false
 proxy_host: proxy.internal
 proxy_port: 80
 proxy_login_str: domain\user:password
