@@ -1,6 +1,6 @@
 # Ansible Dev(Ops) Workstation
 
-Setup any Ubuntu machine for working with common DevOps tools.
+Setup any Ubuntu machine for working with common DevOps tools. Supports Ubuntu 18.04 LTS and higher.
 
 ## Features & software
 
