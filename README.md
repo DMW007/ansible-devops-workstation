@@ -19,8 +19,9 @@ Some usefull CLI tools:
 
 ## Preparation on the target system
 
-- Python for Ansible
+- Python and Ansible: Could be installed by executing `./install-requirements.txt`
 - User has sudo permission without password: Add `<username> ALL=(ALL) NOPASSWD: ALL` to `visudo`
+- SSH access via SSH-Key (copy with e.g. `ssh-copy-id user@localhost` when running locally)
 
 ## How to provision
 
